@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MacroEngineRemake.Forms;
 
 namespace MacroEngineRemake
 {
@@ -41,13 +42,14 @@ namespace MacroEngineRemake
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => GlobalExceptionHandler(sender, e.ExceptionObject as Exception);
             TaskScheduler.UnobservedTaskException += (sender, e) => GlobalExceptionHandler(sender, e.Exception);
 
-            try { Application.Run(new Form()); } catch (Exception ex) { GlobalExceptionHandler(null, ex); }
+            try { Application.Run(new Main_Form()); } catch (Exception ex) { GlobalExceptionHandler(null, ex); }
 
 
         }
 
         private static void GlobalExceptionHandler(object sender, Exception ex)
         {
+            Log.Error($"未捕获的异常\n\n{ex}");
             if (ErrorReportBox.Show("Error", "未捕获的异常", ex) == DialogResult.Abort) Environment.Exit(1);
         }
     }
